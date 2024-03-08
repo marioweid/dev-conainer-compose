@@ -1,18 +1,18 @@
 # [Choice] Debian OS version (use bullseye on local arm64/Apple Silicon): buster, bullseye
 ARG VARIANT="bullseye"
-FROM rust:1-${VARIANT}
+FROM rust:1.76.0-${VARIANT}
 
 # Change default shell
 SHELL ["/bin/bash", "-c"]
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
-# IABG proxy
-ENV HTTP_PROXY=xxxx \
-    HTTPS_PROXY=xxxx \
-    http_proxy=xxxx \
-    https_proxy=xxxx \
-    NO_PROXY=localhost,127.0.0.1,xxxxx \
-    TZ=Europe/Berlin
+# xxxx proxy
+# ENV HTTP_PROXY=xxxx \
+#     HTTPS_PROXY=xxxx \
+#     http_proxy=xxxx \
+#     https_proxy=xxxx \
+#     NO_PROXY=xxxx \
+#     TZ=Europe/Berlin
 
 # [Option] Install zsh
 ARG INSTALL_ZSH="true"
@@ -31,6 +31,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     # Install common packages, non-root user, updated lldb, dependencies
     && bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" "true" "true" \
     && bash /tmp/library-scripts/rust-debian.sh "${CARGO_HOME}" "${RUSTUP_HOME}" "${USERNAME}" "true" "true" \
+    && apt-get install cmake \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
 
 # persitentes home verzeichnis in /workspace

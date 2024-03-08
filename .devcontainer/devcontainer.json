@@ -1,8 +1,5 @@
 {
 	"name": "DevContainer",
- 	// "build": {
-	// 	"dockerfile": "Dockerfile"
-	// },
 	"dockerComposeFile" : "docker-compose.yml",
 	"service": "devcontainer",
 	"runServices": ["db", "frontend"],
