@@ -3,7 +3,6 @@ use pingora::http::ResponseHeader;
 use pingora::prelude::*;
 use pingora::prelude::http_proxy_service;
 use std::sync::Arc;
-// use pingora_proxy::ProxyHttp;
 
 pub struct LB(Arc<LoadBalancer<RoundRobin>>);
 
@@ -66,16 +65,13 @@ fn main() {
     let mut my_server: Server = Server::new(None).unwrap();
     my_server.bootstrap();
 
+    // Reverse Proxy Service
     let mut my_proxy: pingora::services::listening::Service<pingora::proxy::HttpProxy<MyGateway>> = http_proxy_service(
         &my_server.configuration,
         MyGateway {},
     );
-
-    // let mut lb: pingora::services::listening::Service<pingora::proxy::HttpProxy<LB>> =
-    //     http_proxy_service(&my_server.configuration, LB(Arc::new(upstreams)));
     my_proxy.add_tcp("0.0.0.0:8081");
-
+    
     my_server.add_service(my_proxy);
-
     my_server.run_forever();
 }
