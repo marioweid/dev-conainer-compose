@@ -7,4 +7,4 @@ edition = "2021"
 
 [dependencies]
 async-trait="0.1"
-pingora = { version = "0.1", features = [ "lb" ] }
+pingora = { version = "0.1", features = [ "lb", "proxy" ] }

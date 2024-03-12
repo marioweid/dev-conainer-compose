@@ -10,4 +10,5 @@ COPY . .
 
 RUN cargo build
 
+
 CMD ["echo", "Hello from Rust Dockerfile!"]
